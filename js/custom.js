@@ -144,8 +144,6 @@
             THEMEMASCOT.initialize.TM_select2();
             THEMEMASCOT.initialize.TM_datePicker();
             THEMEMASCOT.initialize.TM_onLoadModal();
-            THEMEMASCOT.initialize.TM_loadBSParentModal();
-            THEMEMASCOT.initialize.TM_demoSwitcher();
             THEMEMASCOT.initialize.TM_platformDetect();
             THEMEMASCOT.initialize.TM_customDataAttributes();
             THEMEMASCOT.initialize.TM_parallaxBgInit();
@@ -241,20 +239,6 @@
                             $.magnificPopup.close();
                         }, Number(elementDelay) + Number(elementTimeout) );
                     }
-                });
-            }
-        },
-
-        /* ---------------------------------------------------------------------- */
-        /* ------------------------ Bootstrap Parent Modal  --------------------- */
-        /* ---------------------------------------------------------------------- */
-        TM_loadBSParentModal: function() {
-            var ajaxLoadContent = true;
-            if( ajaxLoadContent ) {
-                $.ajax({
-                    url: "ajax-load/bootstrap-parent-modal.html",
-                    success: function (data) { $('body').append(data); },
-                    dataType: 'html'
                 });
             }
         },
@@ -2488,7 +2472,6 @@
             
             var t = setTimeout(function() {
                 THEMEMASCOT.initialize.TM_wow();
-                THEMEMASCOT.widget.TM_twittie();
                 THEMEMASCOT.initialize.TM_preLoaderOnLoad();
                 THEMEMASCOT.initialize.TM_hashForwarding();
                 THEMEMASCOT.initialize.TM_parallaxBgInit();
