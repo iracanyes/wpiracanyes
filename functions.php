@@ -30,3 +30,4 @@ function change_submenu_class($menu) {
     return $menu;
 }
 add_filter('wp_nav_menu','change_submenu_class');
+ 

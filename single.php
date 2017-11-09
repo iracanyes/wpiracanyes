@@ -16,7 +16,7 @@ get_header();
 
 <div class="main-content">
     <!-- Section: inner-header -->
-    <section class="inner-header divider parallax layer-overlay overlay-dark-5" data-parallax-ratio="0.7" data-bg-img="http://placehold.it/1920x1275">
+    <section class="inner-header divider parallax layer-overlay overlay-dark-5" data-parallax-ratio="0.7" data-bg-img="<?php echo wp_get_attachment_image_src(get_post_thumbnail_id(), 'full', true)[0]; ?>">
         <div class="container pt-120 pb-50">
             <!-- Section Content -->
             <div class="section-content pt-100">
@@ -45,8 +45,11 @@ get_header();
                             <article class="post clearfix mb-0">
                             <div class="entry-header">
                                 <div class="post-thumb thumb">
-                                    <img src="http://placehold.it/1920x1275" alt="" class="img-responsive img-fullwidth">
 
+                                    <?php echo get_the_post_thumbnail(get_the_ID(), 'full', array('class'=>"img-responsive img-fullwidth", 'alt'=>'')); ?>
+                                    <!--
+                                    <img src="<?php //echo wp_get_attachment_image_src(get_post_thumbnail_id(), 'full', true)[0]; ?>" alt="" class="img-responsive img-fullwidth"/>
+                                    -->
                                 </div>
                             </div>
                             <div class="entry-content">
@@ -55,14 +58,14 @@ get_header();
                                 </div>
                                 <div class="entry-meta mb-20">
                                     <ul class="list-inline">
-                                        <li>Posted: <span class="text-theme-colored"> <?php echo get_the_date('l F j, Y'); ?></span></li>
-                                        <li>By: <span class="text-theme-colored"><?php echo get_the_author(); ?></span></li>
-                                        <li><i class="fa fa-comments-o ml-5 mr-5"></i> 5 comments</li>
+                                        <li>Date de publication : <span class="text-theme-colored"> <?php echo get_the_date('l F j, Y'); ?></span></li>
+                                        <li>Auteur : <span class="text-theme-colored"><?php echo get_the_author(); ?></span></li>
+                                        <li><i class="fa fa-comments-o ml-5 mr-5"></i> 5 commentaires</li>
                                     </ul>
                                 </div>
                                 <?php echo get_the_content(); ?>
                                 <div class="mt-30 mb-0">
-                                    <h5 class="pull-left mt-10 mr-20 text-theme-colored">Share:</h5>
+                                    <h5 class="pull-left mt-10 mr-20 text-theme-colored">Partager :</h5>
                                     <ul class="styled-icons icon-circled m-0">
                                         <li><a href="#" data-bg-color="#3A5795"><i class="fa fa-facebook text-white"></i></a></li>
                                         <li><a href="#" data-bg-color="#55ACEE"><i class="fa fa-twitter text-white"></i></a></li>
@@ -79,7 +82,7 @@ get_header();
                                     <div class="tags">
                                         <p class="mb-0">
                                             <i class="fa fa-tags text-theme-colored"></i>
-                                            <span>Tags:</span> <?php echo get_the_category_list(', '); ?>
+                                            <span>Tags : </span> <?php echo get_the_category_list(', '); ?>
                                         </p>
                                     </div>
                                 </div>
@@ -91,7 +94,12 @@ get_header();
                             </div>
                         </div>
                         <div class="author-details media-post">
-                            <a href="#" class="post-thumb mb-0 pull-left flip pr-20"><img class="img-thumbnail" alt="" src="http://placehold.it/130x130"></a>
+                            <?php
+                            /**
+                             * Récupération de l'ID de l'auteur
+                             */
+                                $author_id = get_the_author_meta('ID'); ?>
+                            <a href="#" class="post-thumb mb-0 pull-left flip pr-20"><img class="img-thumbnail" alt="" src="<?php echo wp_get_attachment_image_src(get_the_author_meta('ID'), 'thumbnail', true); ?>" alt=""></a>
                             <div class="post-right">
                                 <h5 class="post-title mt-0 mb-0"><a href="#" class="font-18"><?php echo get_the_author(); ?></a></h5>
 
@@ -107,16 +115,43 @@ get_header();
                         <div class="comments-area">
                             <h5 class="comments-title">Commentaires</h5>
                             <ul class="comment-list">
+                                <?php
+                                $comments = get_comments(get_the_ID());
+                                foreach ($comments as $comment):
+                                    print_r($comment);
+                                ?>
                                 <li>
-                                    <div class="media comment-author"> <a class="media-left" href="#"><img class="img-thumbnail" src="http://placehold.it/130x130" alt=""></a>
+                                    <div class="media comment-author"> <a class="media-left" href="#"><img class="img-thumbnail" src="<?php echo wp_get_attachment_image_src($comment->user_id, 'thumbnail',true)[0]; ?>" alt="Aucune image n'existe"></a>
                                         <div class="media-body">
-                                            <h5 class="media-heading comment-heading">John Doe says:</h5>
-                                            <div class="comment-date">23/06/2014</div>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna et sed aliqua. Ut enim ea commodo consequat...</p>
-                                            <a class="replay-icon pull-right text-theme-colored" href="#"> <i class="fa fa-commenting-o text-theme-colored"></i> Replay</a> </div>
+                                            <h5 class="media-heading comment-heading"><?php echo $comment->comment_author; ?> a écrit:</h5>
+                                            <div class="comment-date"><?php echo $comment->comment_date; ?></div>
+                                            <p><?php echo $comment->comment_content; ?></p>
+                                            <a class="replay-icon pull-right text-theme-colored" href="#"> <i class="fa fa-commenting-o text-theme-colored"></i> Répondre</a>
+                                            <div class="clearfix"></div>
+                                            <div class="media comment-author nested-comment"> <a href="#" class="media-left pt-20"><img alt="" src="http://lorempixel.com/130/130" class="img-thumbnail"></a>
+                                                <div class="media-body p-20 bg-lighter">
+                                                    <h5 class="media-heading comment-heading"><?php echo $comment->comment_author; ?> a écrit:</h5>
+                                                    <div class="comment-date"><?php echo $comment->comment_date; ?></div>
+                                                    <p><?php echo $comment->comment_content; ?></p>
+                                                    <a class="replay-icon pull-right text-theme-colored" href="#"> <i class="fa fa-commenting-o text-theme-colored"></i> Répondre</a>
+                                                </div>
+                                            </div>
+                                            <div class="media comment-author nested-comment"> <a href="#" class="media-left pt-20"><img alt="" src="http://lorempixel.com/130/130" class="img-thumbnail"></a>
+                                                <div class="media-body p-20 bg-lighter">
+                                                    <h5 class="media-heading comment-heading"><?php echo $comment->comment_author; ?> a écrit:</h5>
+                                                    <div class="comment-date"><?php echo $comment->comment_date; ?></div>
+                                                    <p>
+                                                        <?php echo $comment->comment_content; ?>
+                                                    </p>
+                                                    <a class="replay-icon pull-right text-theme-colored" href="#"> <i class="fa fa-commenting-o text-theme-colored"></i> Répondre</a>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </li>
-
+                                <?php
+                                endforeach;
+                                ?>
                             </ul>
                         </div>
                         <div class="comment-box">
@@ -161,7 +196,7 @@ get_header();
                             <div class="search-form">
                                 <form>
                                     <div class="input-group">
-                                        <input type="text" placeholder="Click to Search" class="form-control search-input">
+                                        <input type="text" placeholder="Commencer la recherche" class="form-control search-input">
                                         <span class="input-group-btn">
                       <button type="submit" class="btn search-button"><i class="fa fa-search"></i></button>
                       </span>
@@ -170,11 +205,12 @@ get_header();
                             </div>
                         </div>
                         <div class="widget">
-                            <h5 class="widget-title line-bottom">Categories</h5>
+                            <h5 class="widget-title line-bottom">Catégories</h5>
                             <div class="categories">
                                 <ul class="list list-border angle-double-right">
                                     <?php
-                                        echo get_the_category_list();
+
+                                        echo $categories = get_the_category_list();
                                     ?>
 
                                 </ul>
@@ -184,27 +220,26 @@ get_header();
                             <h5 class="widget-title line-bottom">News récents</h5>
                             <div class="latest-posts">
                                 <?php
-                                $latest = get_boundary_post(true, "", true);
+                                    $latest = get_boundary_post(true, null, false);
 
                                 if(!empty($latest)) :
                                     foreach($latest as $post) :
 
                                 ?>
                                     <article class="post media-post clearfix pb-0 mb-10">
-                                    <a class="post-thumb" href="#"><img src="https://placehold.it/75x75" alt=""></a>
+                                    <a class="post-thumb" href="#"><img src="<?php echo wp_get_attachment_image_src($post->ID, 'thumbnail', true)[0]; ?>" alt=""></a>
                                     <div class="post-right">
-                                        <h5 class="post-title mt-0"><a href="#"><?php echo $post->title; ?></a></h5>
+                                        <h5 class="post-title mt-0"><a href="#"><?php echo $post->post_title; ?></a></h5>
                                         <p>
                                             <?php
                                             /*
-                                             * Créer un résumé du contenu
+                                             * Créer un résumé du contenu 60 mots
                                             */
                                             //echo wp_trim_excerpt($post->content);
-
                                             /*Créer un résumé avec un nombre
                                              * de mots défini
                                              */
-                                            echo wp_trim_words($post->content, 20);
+                                            echo wp_trim_words($post->post_content, 20);
                                             ?>
                                         </p>
                                     </div>

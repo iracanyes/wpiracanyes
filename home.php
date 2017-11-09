@@ -10,25 +10,21 @@
 
 // Chargement du header de la page
 get_header();
-?>
-
-<!-- Start main-content : blog-classic-right-sidebar -->
+?><!-- Start main-content : blog-classic-right-sidebar -->
 <div class="main-content">
-
     <!-- Section: inner-header -->
-    <section class="inner-header divider parallax layer-overlay overlay-dark-5" data-parallax-ratio="0.7" data-bg-img="http://placehold.it/1920x1275">
+    <section class="inner-header divider parallax layer-overlay overlay-dark-5" data-parallax-ratio="0.7" data-bg-img="<?php echo wp_get_attachment_image_src(13, 'full', true)[0]; ?>">
         <div class="container pt-100 pb-50">
             <!-- Section Content -->
             <div class="section-content pt-100">
                 <div class="row">
                     <div class="col-md-12">
-                        <h3 class="title text-white">Blog</h3>
+                        <h3 class="title text-white">Actualités</h3>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-
     <section>
         <div class="container mt-30 mb-30 pt-30 pb-30">
             <div class="row ">
@@ -41,6 +37,7 @@ get_header();
                                 while (have_posts()) :
                                     // Création d'un objet représentant l'article
                                     the_post();
+                                    $comments_count = wp_count_comments(get_the_ID());
                                 ?>
                                 <article class="post mb-50 pb-30">
                                     <div class="entry-header">
@@ -54,9 +51,12 @@ get_header();
                                     <div class="entry-content">
                                         <h5 class="entry-title text-uppercase mt-0"><a href="#"><?php echo get_the_title(); ?></a></h5>
                                         <ul class="list-inline font-12 mb-20 mt-10">
-                                            <li><i class="fa fa-calendar mr-5"></i> 9/9/2015 </li>
-                                            <li><i class="fa fa-comments-o ml-5 mr-5"></i> 5 comments</li>
+                                            <li><i class="fa fa-calendar mr-5"></i><?php echo get_the_date('d/m/Y'); ?></li>
+                                            <li><i class="fa fa-comments-o ml-5 mr-5"></i> <?php echo $comments_count->total_comments; ?> commentaires</li>
                                         </ul>
+                                        <p>
+
+                                        </p>
                                         <p>
                                             <?php
                                             /* A revoir
@@ -64,13 +64,13 @@ get_header();
                                             */
                                             echo get_the_excerpt();
                                             ?>
-                                            <a href="#">Lire la suite ...</a>
+                                            <a href="<?php echo get_permalink(); ?>">Lire la suite ...</a>
                                         </p>
                                         <ul class="list-inline like-comment pull-left flip font-12">
-                                            <li><i class="pe-7s-comment"></i>36</li>
+                                            <li><i class="pe-7s-comment"></i><?php echo $comments_count->total_comments; ?></li>
                                             <li><i class="pe-7s-like2"></i>125</li>
                                         </ul>
-                                        <a class="pull-right flip text-gray font-13" href="#"><i class="fa fa-angle-double-right text-theme-colored"></i> Read more</a>
+                                        <a class="pull-right flip text-gray font-13" href="<?php echo get_permalink(); ?>"><i class="fa fa-angle-double-right text-theme-colored"></i>Lire la suite ...</a>
                                         <div class="clearfix"></div>
                                     </div>
                                 </article>
@@ -97,53 +97,46 @@ get_header();
                 <div class="col-sm-12 col-md-3">
                     <div class="sidebar sidebar-right mt-sm-30">
                         <div class="widget">
-                            <h5 class="widget-title line-bottom">Archives</h5>
+                            <h5 class="widget-title line-bottom">Catégories</h5>
                             <ul class="list-divider list-border list check">
-                                <li><a href="#">Vehicle Accidents</a></li>
-                                <li><a href="#">Family Law</a></li>
-                                <li><a href="#">Personal Injury</a></li>
-                                <li><a href="#">Personal Injury</a></li>
-                                <li><a href="#">Case Investigation</a></li>
-                                <li><a href="#">Business Taxation</a></li>
+                                <?php
+                                $categories = get_categories();
+                                foreach ($categories as $category):
+                                ?>
+                                    <li><a href="#"><?php echo strtoupper($category->category_nicename); ?></a></li>
+                                <?php
+                                endforeach;
+                                ?>
                             </ul>
                         </div>
                         <div class="widget">
-                            <h5 class="widget-title line-bottom">Twitter Feed</h5>
+                            <h5 class="widget-title line-bottom">Twitter : File d'actualité</h5>
                             <div class="twitter-feed list-border clearfix" data-username="Envato"></div>
                         </div>
                         <div class="widget">
-                            <h5 class="widget-title line-bottom">Image gallery with text</h5>
+                            <h5 class="widget-title line-bottom">Gallerie d'images</h5>
                             <div class="widget-image-carousel">
+
                                 <div class="item">
                                     <img src="https://placehold.it/365x230" alt="">
                                     <h4 class="title">This is a Demo Title</h4>
                                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestiae illum amet illo.</p>
                                 </div>
-                                <div class="item">
-                                    <img src="https://placehold.it/365x230" alt="">
-                                    <h4 class="title">This is a Demo Title</h4>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestiae illum amet illo.</p>
-                                </div>
-                                <div class="item">
-                                    <img src="https://placehold.it/365x230" alt="">
-                                    <h4 class="title">This is a Demo Title</h4>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestiae illum amet illo.</p>
-                                </div>
+
                             </div>
                         </div>
                         <div class="widget">
                             <h5 class="widget-title line-bottom">Tags</h5>
                             <div class="tags">
-                                <a href="#">travel</a>
-                                <a href="#">blog</a>
-                                <a href="#">lifestyle</a>
-                                <a href="#">feature</a>
-                                <a href="#">mountain</a>
-                                <a href="#">design</a>
-                                <a href="#">restaurant</a>
-                                <a href="#">journey</a>
-                                <a href="#">classic</a>
-                                <a href="#">sunset</a>
+                                <?php
+                                $tags = get_tags();
+                                foreach ($tags as $tag) :
+                                ?>
+                                    <a href="#"><?php echo $tag->name; ?></a>
+                                <?php
+                                endforeach;
+                                ?>
+
                             </div>
                         </div>
                     </div>

@@ -13,15 +13,18 @@ get_header();
 
 <!-- Start main-content -->
 <div class="main-content">
+    <?php
+        $page = get_page();
 
-    <!-- Section: inner-header -->
-    <section class="inner-header divider parallax layer-overlay overlay-dark-5" data-parallax-ratio="0.7" data-bg-img="http://placehold.it/1920x1275">
+    ?>
+    <!-- Section: inner-header http://placehold.it/1920/1275-->
+    <section class="inner-header divider parallax layer-overlay overlay-dark-5" data-parallax-ratio="0.7" data-bg-img="http://lorempixel.com/1920/1275">
         <div class="container pt-100 pb-50">
             <!-- Section Content -->
             <div class="section-content pt-100">
                 <div class="row">
                     <div class="col-md-12">
-                        <h3 class="title text-white">Service Details</h3>
+                        <h3 class="title text-white"><?php echo $page->post_title ; ?></h3>
                     </div>
                 </div>
             </div>
@@ -36,14 +39,17 @@ get_header();
                     <div class="col-md-7">
                         <div class="caption"> <span class="text-uppercase letter-space-4 mb-20 text-theme-colored">Physical fitness </span>
                             <h4 class="text-uppercase letter-space-3 mb-30">Physical fitness is a general state of health</h4>
-                            <p class="text-justify">Physical exercise is any bodily activity that enhances or maintains physical fitness and overall health and wellness. It is performed for various reasons, including strengthening muscles and the cardiovascular system, honing athletic skills, weight loss or maintenance, and merely enjoyment. Frequent and regular physical exercise boosts the immune system and helps prevent the "diseases of affluence" such as heart disease, cardiovascular disease, Type 2 diabetes, and obesity.t may also help prevent stress and depression, help to promote or maintain positive self-esteem, improve mental health generally, and can augment an individual's sex appeal or body image, which has been found to be linked with higher levels of self-esteem.</p>
-                            <p>Physical exercise is important for maintaining physical fitness and can contribute positively to maintaining a healthy weight, building and maintaining healthy bone density, muscle strength, and joint mobility, promoting physiological well-being, reducing surgical risks, and strengthening the immune system. Some studies indicate that exercise may increase life expectancy and quality of life.</p>
+
+                            <p class="text-justify">
+                                <?php echo $page->post_content; ?>
+                            </p>
+
                         </div>
                     </div>
                     <div class="col-md-5">
                         <div class="class-item box-hover-effect effect1">
                             <div class="thumb"> <a href="#">
-                                    <img class="img-fullwidth mt-50" src="http://placehold.it/1920x1280" alt="..."></a>
+                                    <img class="img-fullwidth mt-50" src="http://lorempixel.com/1920/1280" alt="..."></a>
                             </div>
                         </div>
                     </div>
@@ -57,62 +63,31 @@ get_header();
         </div>
     </section>
 
-    <!-- divider: testimonial -->
-    <section class="divider layer-overlay overlay-dark-8" data-bg-img="http://placehold.it/1920x1280" data-parallax-ratio="0.7">
+    <!-- divider: testimonial http://lorempixel.com/1920/1280-->
+    <section class="divider layer-overlay overlay-dark-8" data-bg-img="<?php echo wp_get_attachment_image_src(get_the_ID(), 'post-thumbnail', true)[0]; ?>" data-parallax-ratio="0.7">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
                     <div class="testimonial-carousel-3col testimonial">
+                        <?php
+                        $users = get_users(array("orderby"=>"nicename", "role"=>"author"));
+                        foreach ($users as $user):
+                        ?>
                         <div class="item text-center">
                             <div class="thumb">
-                                <img src="http://placehold.it/90x90" alt="" width="90" class="img-circle">
-                                <h5 class="author text-theme-colored">Jane Doe</h5>
-                                <h6 class="title text-white">Developer</h6>
+                                <img src="http://lorempixel.com/90/90" alt="" width="90" class="img-circle">
+                                <h5 class="author text-theme-colored"><?php echo $user->user_login; ?></h5>
+                                <h6 class="title text-white"><?php echo $user->user_email; ?></h6>
                             </div>
                             <div class="content">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum feugiat turpis nec leo pellentesque tincidunt.</p>
+                                <p>
+                                    <?php echo $user->description; ?>
+                                </p>
                             </div>
                         </div>
-                        <div class="item text-center">
-                            <div class="thumb">
-                                <img src="http://placehold.it/90x90" alt="" width="90" class="img-circle">
-                                <h5 class="author text-theme-colored">Jane Doe</h5>
-                                <h6 class="title text-white">Developer</h6>
-                            </div>
-                            <div class="content">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum feugiat turpis nec leo pellentesque tincidunt.</p>
-                            </div>
-                        </div>
-                        <div class="item text-center">
-                            <div class="thumb">
-                                <img src="http://placehold.it/90x90" alt="" width="90" class="img-circle">
-                                <h5 class="author text-theme-colored">Jane Doe</h5>
-                                <h6 class="title text-white">Developer</h6>
-                            </div>
-                            <div class="content">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum feugiat turpis nec leo pellentesque tincidunt.</p>
-                            </div>
-                        </div>
-                        <div class="item text-center">
-                            <div class="thumb">
-                                <img src="http://placehold.it/90x90" alt="" width="90" class="img-circle">
-                                <h5 class="author text-theme-colored">Jane Doe</h5>
-                                <h6 class="title text-white">Developer</h6>
-                            </div>
-                            <div class="content">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum feugiat turpis nec leo pellentesque tincidunt.</p>
-                            </div>
-                        </div>
-                        <div class="item text-center">
-                            <div class="thumb">
-                                <img src="http://placehold.it/90x90" alt="" width="90" class="img-circle">
-                                <h5 class="author text-theme-colored">Jane Doe</h5>
-                                <h6 class="title text-white">Developer</h6>
-                            </div>
-                            <div class="content">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum feugiat turpis nec leo pellentesque tincidunt.</p>
-                            </div>
-                        </div>
+                        <?php
+                        endforeach;
+                        ?>
                     </div>
                 </div>
             </div>
@@ -120,35 +95,35 @@ get_header();
     </section>
 
     <!-- Divider: Funfact -->
-    <section class="divider parallax layer-overlay overlay-dark-8" data-parallax-ratio="0.7" data-bg-img="http://placehold.it/1920x1275">
+    <section class="divider parallax layer-overlay overlay-dark-8" data-parallax-ratio="0.7" data-bg-img="http://lorempixel.com/1920/1275">
         <div class="container pt-90 pb-90">
             <div class="row">
                 <div class="col-xs-12 col-sm-6 col-md-3 mb-md-50">
                     <div class="funfact text-center pt-15 pb-15 p-0">
                         <a href="#"><i class="pe-7s-smile text-gray-silver"></i></a>
                         <h2 class="animate-number text-theme-colored font-48 m-0" data-value="106" data-animation-duration="2000">0</h2>
-                        <h5 class="text-white">Happy People</h5>
+                        <h5 class="text-white">La satisfaction de nos clients</h5>
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3 mb-md-50">
                     <div class="funfact text-center pt-15 pb-15 p-0">
                         <a href="#"><i class="pe-7s-portfolio text-gray-silver"></i></a>
                         <h2 class="animate-number text-theme-colored font-48 m-0" data-value="250" data-animation-duration="2500">0</h2>
-                        <h5 class="text-white">Success Projects</h5>
+                        <h5 class="text-white">Nos accomplissements</h5>
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3 mb-md-50">
                     <div class="funfact text-center pt-15 pb-15 p-0">
                         <a href="#"><i class="pe-7s-users text-gray-silver"></i></a>
                         <h2 class="animate-number text-theme-colored font-48 m-0" data-value="400" data-animation-duration="3000">0</h2>
-                        <h5 class="text-white">Team Members</h5>
+                        <h5 class="text-white">Membre de l'équipe</h5>
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3 mb-md-50">
                     <div class="funfact text-center pt-15 pb-15 p-0">
                         <a href="#"><i class="pe-7s-cup text-gray-silver"></i></a>
                         <h2 class="animate-number text-theme-colored font-48 m-0" data-value="30" data-animation-duration="3500">0</h2>
-                        <h5 class=" text-white">Awards</h5>
+                        <h5 class=" text-white">Récompenses</h5>
                     </div>
                 </div>
             </div>
